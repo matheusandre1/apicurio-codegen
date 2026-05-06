@@ -583,7 +583,14 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
             return;
         }
 
-        OpenApi31Schema schema31 = (OpenApi31Schema) schema;
+        JsonNode existingJavaType = CodegenUtil.getExtension(schema, "existingJavaType");
+        if (existingJavaType != null && existingJavaType.isTextual()) {
+            String javaType = existingJavaType.asText();
+            target.setExistingJavaType(javaType);
+            if (javaType.startsWith("java.util.Map<")) {
+                target.setCollection("map");
+            }
+        }
 
         target.setType((List<String>) null);
         String $ref = schema31.get$ref();
@@ -606,17 +613,13 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
         } else if (containsValue(schema31.getType(), "object")) {
             setIfPresent(() -> toStringList(schema31.getType()), target::setType);
             setIfPresent(schema::getFormat, target::setFormat);
-            // TODO: Consider representing object as map
-            //if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties().isSchema()) {
-            //    setSchemaProperties(target, (OpenApi3xSchema) schema.getAdditionalProperties().asSchema());
-            //}
-            //
-            //setIfPresent(schema::isNullable, target::setNullable);
-            //setIfPresent(schema::getMaxProperties, value -> target.setMaxProperties(value.longValue()));
-            //setIfPresent(schema::getMinProperties, value -> target.setMinProperties(value.longValue()));
-            //target.setCollection("map");
-        } else if (containsValue(schema31.getType(), "string")) {
-            setIfPresent(() -> toStringList(schema31.getType()), target::setType);
+            String mapJavaType = resolveMapJavaType(schema);
+            if (mapJavaType != null) {
+                target.setExistingJavaType(mapJavaType);
+                target.setCollection("map");
+            }
+        } else if (containsValue(schema.getType(), "string")) {
+            setIfPresent(() -> toStringList(schema.getType()), target::setType);
             setIfPresent(schema::getFormat, target::setFormat);
             setIfPresent(schema::getMaxLength, value -> target.setMaxLength(value.longValue()));
             setIfPresent(schema::getMinLength, value -> target.setMinLength(value.longValue()));
@@ -650,6 +653,60 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
                 target.setDefaultValue(defaultValue.asText());
             }
         });
+    }
+
+    private String resolveMapJavaType(OpenApi31Schema schema) {
+        if (schema.getAdditionalProperties() == null || !schema.getAdditionalProperties().isSchema()) {
+            JsonNode existingJavaType = CodegenUtil.getExtension(schema, "existingJavaType");
+            if (existingJavaType != null && existingJavaType.isTextual()) {
+                return existingJavaType.asText();
+            }
+            return null;
+        }
+
+        String valueType = resolveJavaType((OpenApi31Schema) schema.getAdditionalProperties().asSchema());
+        return "java.util.Map<String, " + valueType + ">";
+    }
+
+    private String resolveJavaType(OpenApi31Schema schema) {
+        if (schema == null) {
+            return "java.lang.Object";
+        }
+
+        if (schema.get$ref() != null && !schema.get$ref().isBlank()) {
+            return CodegenUtil.schemaRefToFQCN(settings, (Document) schema.root(), schema.get$ref(),
+                    this.settings.getJavaPackage() + ".beans");
+        }
+
+        if (containsValue(schema.getType(), "array")) {
+            String itemType = "java.lang.Object";
+            if (schema.getItems() != null) {
+                itemType = resolveJavaType((OpenApi31Schema) schema.getItems());
+            }
+            return "java.util.List<" + itemType + ">";
+        }
+
+        if (containsValue(schema.getType(), "string")) {
+            return "java.lang.String";
+        }
+        if (containsValue(schema.getType(), "integer")) {
+            return "java.lang.Integer";
+        }
+        if (containsValue(schema.getType(), "number")) {
+            return "java.lang.Double";
+        }
+        if (containsValue(schema.getType(), "boolean")) {
+            return "java.lang.Boolean";
+        }
+        if (containsValue(schema.getType(), "object")) {
+            if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties().isSchema()) {
+                String valueType = resolveJavaType((OpenApi31Schema) schema.getAdditionalProperties().asSchema());
+                return "java.util.Map<String, " + valueType + ">";
+            }
+            return "java.lang.Object";
+        }
+
+        return "java.lang.Object";
     }
 
     private <T> void setIfPresent(Supplier<T> source, Consumer<T> target) {
