@@ -9,12 +9,12 @@
     <name>apitomy-codegen-parent</name>
     <packaging>pom</packaging>
 
-    <url>https://www.apicur.io/</url>
+    <url>https://www.apitomy.io/</url>
     <description>Open Source API Design Code Generator</description>
 
     <organization>
-        <name>Red Hat</name>
-        <url>https://www.redhat.com</url>
+        <name>Apitomy</name>
+        <url>https://www.apitomy.io</url>
     </organization>
 
     <licenses>
