@@ -14,8 +14,6 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    env:
-      MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
     if: github.repository_owner == 'Apitomy'
     outputs:
       release-version: ${{ steps.versions.outputs.release-version }}
@@ -37,12 +35,6 @@ jobs:
         run: |
           git config user.name "apitomy-ci"
           git config user.email "apitomy.ci@gmail.com"
-
-
-      - name: Set up settings.xml
-        run: |
-          echo "<settings><servers><server><id>central</id><username>${{ secrets.CENTRAL_USERNAME }}</username><password>${{ secrets.CENTRAL_TOKEN }}</password></server></servers><profiles><profile><id>central</id><activation><activeByDefault>true</activeByDefault></activation><properties><gpg.executable>gpg</gpg.executable></properties></profile></profiles></settings>" > /home/runner/.m2/settings.xml
-          cat /home/runner/.m2/settings.xml
 
 
       - name: Compute Release and Snapshot Versions
@@ -76,23 +68,6 @@ jobs:
           git push
 
 
-      - name: Import GPG Key
-        uses: crazy-max/ghaction-import-gpg@v7
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-
-      - name: Maven Deploy
-        uses: nick-fields/retry@v4
-        with:
-          timeout_minutes: 45
-          max_attempts: 5
-          retry_on: any
-          retry_wait_seconds: 120
-          command: ./mvnw deploy -Prelease --batch-mode --settings /home/runner/.m2/settings.xml -DskipTests
-
-
       - name: Create GitHub Release
         run: |
           gh release create "${{ steps.versions.outputs.release-version }}" \
@@ -103,27 +78,17 @@ jobs:
           GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 
-      - name: Slack Notification (Always)
-        if: always()
-        run: |
-          MESSAGE="'${{ github.workflow }}/${{ github.job }}' job completed with status: ${{ job.status }}"
-          REPO="${{ github.repository }}"
-          LINK="https://github.com/$REPO/actions/runs/${{ github.run_id }}"
-          PAYLOAD="{\"workflow\": \"${{ github.workflow }}\", \"status\": \"${{ job.status }}\", \"message\": \"$MESSAGE\", \"link\": \"$LINK\", \"repository\": \"$REPO\"}"
-          curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" ${{ secrets.SLACK_NOTIFICATION_WEBHOOK }}
-
-      - name: Slack Notification (Error)
-        if: failure()
-        run: |
-          MESSAGE="'${{ github.workflow }}/${{ github.job }}' job FAILED!"
-          REPO="${{ github.repository }}"
-          LINK="https://github.com/$REPO/actions/runs/${{ github.run_id }}"
-          PAYLOAD="{\"workflow\": \"${{ github.workflow }}\", \"status\": \"${{ job.status }}\", \"message\": \"$MESSAGE\", \"link\": \"$LINK\", \"repository\": \"$REPO\"}"
-          curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" ${{ secrets.SLACK_ERROR_WEBHOOK }}
-
-
-  set-next-snapshot:
+  maven-publish:
     needs: release
+    uses: ./.github/workflows/maven-publish.yaml
+    with:
+      release-version: ${{ needs.release.outputs.release-version }}
+      branch: ${{ inputs.branch }}
+    secrets: inherit
+
+
+  finalize:
+    needs: [release, maven-publish]
     runs-on: ubuntu-latest
     if: always() && needs.release.result == 'success'
     steps:
@@ -157,11 +122,35 @@ jobs:
           git push
 
 
-      - name: Slack Notification (Error)
-        if: failure()
+      - name: Check Publishing Results
         run: |
-          MESSAGE="'${{ github.workflow }}/${{ github.job }}' job FAILED!"
+          echo "Release workflow completed"
+          echo "Maven publish status: ${{ needs.maven-publish.result }}"
+          if [[ "${{ needs.maven-publish.result }}" != "success" ]]; then
+            echo "WARNING: Maven publish failed. You can retry it manually:"
+            echo "  https://github.com/${{ github.repository }}/actions/workflows/maven-publish.yaml"
+          fi
+
+
+      - name: Slack Notification (Always)
+        if: always()
+        run: |
+          MAVEN_STATUS="${{ needs.maven-publish.result }}"
+          if [[ "$MAVEN_STATUS" != "success" ]]; then
+            MESSAGE="Release ${{ needs.release.outputs.release-version }} completed with warnings. Maven: $MAVEN_STATUS. Manual retry may be needed."
+          else
+            MESSAGE="Release ${{ needs.release.outputs.release-version }} completed successfully"
+          fi
           REPO="${{ github.repository }}"
           LINK="https://github.com/$REPO/actions/runs/${{ github.run_id }}"
           PAYLOAD="{\"workflow\": \"${{ github.workflow }}\", \"status\": \"${{ job.status }}\", \"message\": \"$MESSAGE\", \"link\": \"$LINK\", \"repository\": \"$REPO\"}"
+          curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" ${{ secrets.SLACK_NOTIFICATION_WEBHOOK }}
+
+      - name: Slack Notification (Publishing Failures)
+        if: needs.maven-publish.result != 'success'
+        run: |
+          MESSAGE="Release ${{ needs.release.outputs.release-version }}: Maven publish failed (${{ needs.maven-publish.result }}). Retry at https://github.com/${{ github.repository }}/actions/workflows/maven-publish.yaml"
+          REPO="${{ github.repository }}"
+          LINK="https://github.com/$REPO/actions/runs/${{ github.run_id }}"
+          PAYLOAD="{\"workflow\": \"${{ github.workflow }}\", \"status\": \"warning\", \"message\": \"$MESSAGE\", \"link\": \"$LINK\", \"repository\": \"$REPO\"}"
           curl -X POST -H "Content-Type: application/json" -d "$PAYLOAD" ${{ secrets.SLACK_ERROR_WEBHOOK }}
