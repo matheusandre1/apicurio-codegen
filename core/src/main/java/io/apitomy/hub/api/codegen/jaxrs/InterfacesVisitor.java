@@ -21,9 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.apicurio.datamodels.models.Node;
-import io.apicurio.datamodels.models.openapi.OpenApiPathItem;
-import io.apicurio.datamodels.util.NodeUtil;
+import io.apitomy.datamodels.models.Node;
+import io.apitomy.datamodels.models.openapi.OpenApiPathItem;
+import io.apitomy.datamodels.util.NodeUtil;
 
 /**
  * Visitor used to organize all of the paths into a set of interface names.

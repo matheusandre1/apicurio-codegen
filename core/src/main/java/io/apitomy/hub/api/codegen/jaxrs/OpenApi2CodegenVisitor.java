@@ -38,27 +38,28 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.apicurio.datamodels.Library;
-import io.apicurio.datamodels.models.Document;
-import io.apicurio.datamodels.models.Extensible;
-import io.apicurio.datamodels.models.Info;
-import io.apicurio.datamodels.models.Node;
-import io.apicurio.datamodels.models.Operation;
-import io.apicurio.datamodels.models.Parameter;
-import io.apicurio.datamodels.models.Schema;
-import io.apicurio.datamodels.models.openapi.OpenApiMediaType;
-import io.apicurio.datamodels.models.openapi.OpenApiOperation;
-import io.apicurio.datamodels.models.openapi.OpenApiParameter;
-import io.apicurio.datamodels.models.openapi.OpenApiParametersParent;
-import io.apicurio.datamodels.models.openapi.OpenApiPathItem;
-import io.apicurio.datamodels.models.openapi.OpenApiRequestBody;
-import io.apicurio.datamodels.models.openapi.OpenApiResponse;
-import io.apicurio.datamodels.models.openapi.OpenApiSchema;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31MediaType;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Parameter;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Response;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Schema;
-import io.apicurio.datamodels.util.NodeUtil;
+import io.apitomy.datamodels.Library;
+import io.apitomy.datamodels.models.Document;
+import io.apitomy.datamodels.models.Extensible;
+import io.apitomy.datamodels.models.Info;
+import io.apitomy.datamodels.models.Node;
+import io.apitomy.datamodels.models.Operation;
+import io.apitomy.datamodels.models.Parameter;
+import io.apitomy.datamodels.models.Schema;
+import io.apitomy.datamodels.models.openapi.OpenApiMediaType;
+import io.apitomy.datamodels.models.openapi.OpenApiOperation;
+import io.apitomy.datamodels.models.openapi.OpenApiParameter;
+import io.apitomy.datamodels.models.openapi.OpenApiParametersParent;
+import io.apitomy.datamodels.models.openapi.OpenApiPathItem;
+import io.apitomy.datamodels.models.openapi.OpenApiRequestBody;
+import io.apitomy.datamodels.models.openapi.OpenApiResponse;
+import io.apitomy.datamodels.models.openapi.OpenApiSchema;
+import io.apitomy.datamodels.models.openapi.v3x.OpenApi3xMediaType;
+import io.apitomy.datamodels.models.openapi.v3x.OpenApi3xSchema;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Parameter;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Response;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Schema;
+import io.apitomy.datamodels.util.NodeUtil;
 import io.apitomy.hub.api.codegen.CodegenExtensions;
 import io.apitomy.hub.api.codegen.JaxRsProjectSettings;
 import io.apitomy.hub.api.codegen.beans.CodegenBeanAnnotationDirective;
@@ -126,14 +127,14 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
      * are the same.
      * @param node
      */
-    private static String createSignature(OpenApi31Schema node) {
+    private static String createSignature(OpenApi3xSchema node) {
         SchemaSigner signer = new SchemaSigner();
         Library.visitNode(node, signer);
         return signer.getSignature();
     }
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitDocument(io.apicurio.datamodels.models.Document)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitDocument(io.apitomy.datamodels.models.Document)
      */
     @Override
     public void visitDocument(Document node) {
@@ -149,7 +150,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
     }
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitInfo(io.apicurio.datamodels.models.Info)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitInfo(io.apitomy.datamodels.models.Info)
      */
     @Override
     public void visitInfo(Info node) {
@@ -161,7 +162,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
     }
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitPathItem(io.apicurio.datamodels.models.openapi.OpenApiPathItem)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitPathItem(io.apitomy.datamodels.models.openapi.OpenApiPathItem)
      */
     @Override
     public void visitPathItem(OpenApiPathItem node) {
@@ -171,7 +172,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
     }
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitOperation(io.apicurio.datamodels.models.Operation)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitOperation(io.apitomy.datamodels.models.Operation)
      */
     @Override
     public void visitOperation(Operation node) {
@@ -243,7 +244,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
     }
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitParameter(io.apicurio.datamodels.models.Parameter)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitParameter(io.apitomy.datamodels.models.Parameter)
      */
     @Override
     public void visitParameter(Parameter node) {
@@ -276,9 +277,9 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
             .map(Map::values) // gives the collection of media types
             .map(Collection::stream)
             .flatMap(Stream::findFirst)
-            .map(OpenApi31MediaType::getSchema)
-            .map(OpenApi31Schema.class::cast)
-            .or(() -> Optional.ofNullable((OpenApi31Schema) ((OpenApi31Parameter) node).getSchema()))
+            .map(OpenApiMediaType::getSchema)
+            .map(OpenApi3xSchema.class::cast)
+            .or(() -> Optional.ofNullable((OpenApi3xSchema) ((OpenApi31Parameter) node).getSchema()))
             .ifPresent(schema -> {
                 setSchemaProperties(cgArgument, schema);
                 cgArgument.setTypeSignature(createSignature(schema));
@@ -288,7 +289,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
     }
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitRequestBody(io.apicurio.datamodels.models.openapi.OpenApiRequestBody)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitRequestBody(io.apitomy.datamodels.models.openapi.OpenApiRequestBody)
      */
     @Override
     public void visitRequestBody(OpenApiRequestBody node) {
@@ -322,7 +323,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
 
                 CodegenJavaReturn cgReturn = new CodegenJavaReturn();
                 if (mediaType.getSchema() != null) {
-                    setSchemaProperties(cgReturn, (OpenApi31Schema) mediaType.getSchema());
+                    setSchemaProperties(cgReturn, (OpenApi3xSchema) mediaType.getSchema());
                 }
                 allReturnTypes.merge(cgReturn, Collections.singleton(name), (set1, set2) -> {
                     Set<String> merged = new HashSet<>();
@@ -365,7 +366,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
     }
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitResponse(io.apicurio.datamodels.models.openapi.OpenApiResponse)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitResponse(io.apitomy.datamodels.models.openapi.OpenApiResponse)
      */
     @Override
     public void visitResponse(OpenApiResponse node) {
@@ -379,17 +380,17 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
         // become the method return value.
         if (statusCode != null && statusCode.indexOf("2") == 0 && this._currentMethods.get(0).getReturn() == null) {
             OpenApi31Response response = (OpenApi31Response) node;
-            Map<String, OpenApi31MediaType> content = response.getContent();
+            Map<String, OpenApi3xMediaType> content = response.getContent();
             if (content == null) {
                 content = new HashMap<>();
             }
 
             // TODO if there are multiple response media types, handle it somehow - probably by returning a JAX-RS Response object
             if (!content.isEmpty()) {
-                Entry<String, OpenApi31MediaType> firstContent = content.entrySet().iterator().next();
-                OpenApi31MediaType mediaType = firstContent.getValue();
+                Entry<String, OpenApi3xMediaType> firstContent = content.entrySet().iterator().next();
+                OpenApi3xMediaType mediaType = firstContent.getValue();
 
-                JsonNode returnTypeExt = CodegenUtil.getExtension(mediaType, CodegenExtensions.RETURN_TYPE);
+                JsonNode returnTypeExt = CodegenUtil.getExtension((Extensible) mediaType, CodegenExtensions.RETURN_TYPE);
                 CodegenJavaReturn cgReturn = null;
                 if (returnTypeExt != null) {
                     String returnType = returnTypeExt.asText();
@@ -398,7 +399,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
                     cgReturn = customReturn;
                 } else if (mediaType.getSchema() != null) {
                     cgReturn = new CodegenJavaReturn();
-                    setSchemaProperties(cgReturn, (OpenApi31Schema) mediaType.getSchema());
+                    setSchemaProperties(cgReturn, (OpenApi3xSchema) mediaType.getSchema());
                 }
 
                 // If no return was created, it was because we couldn't figure it out from the
@@ -421,7 +422,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
     }
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitSchema(io.apicurio.datamodels.models.Schema)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitSchema(io.apitomy.datamodels.models.Schema)
      */
     @Override
     public void visitSchema(Schema node) {
@@ -433,7 +434,7 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
             bean.setName(name);
             bean.setPackage(CodegenUtil.schemaToPackageName(schema, this.settings.getJavaPackage() + ".beans"));
             bean.set$schema(Library.writeNode(schema));
-            bean.setSignature(createSignature((OpenApi31Schema) schema));
+            bean.setSignature(createSignature((OpenApi3xSchema) schema));
             bean.setAnnotations(annotations(CodegenUtil.getExtension((Extensible) schema, CodegenExtensions.ANNOTATIONS)));
 
             this.codegenInfo.getBeans().add(bean);
@@ -577,17 +578,19 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
         return path;
     }
 
-    private void setSchemaProperties(CodegenJavaSchema target, OpenApi31Schema schema) {
+    private void setSchemaProperties(CodegenJavaSchema target, OpenApi3xSchema schema) {
         if (schema == null) {
             return;
         }
 
+        OpenApi31Schema schema31 = (OpenApi31Schema) schema;
+
         target.setType((List<String>) null);
-        String $ref = schema.get$ref();
+        String $ref = schema31.get$ref();
 
         if ($ref != null) {
             target.setType(this.typeFromSchemaRef((Document) schema.root(), $ref));
-        } else if (containsValue(schema.getType(), "array")) {
+        } else if (containsValue(schema31.getType(), "array")) {
             if (schema.getItems() != null) {
                 setSchemaProperties(target, schema.getItems());
             }
@@ -600,45 +603,45 @@ public class OpenApi2CodegenVisitor extends TraversingOpenApi31VisitorAdapter {
             } else {
                 target.setCollection("list");
             }
-        } else if (containsValue(schema.getType(), "object")) {
-            setIfPresent(() -> toStringList(schema.getType()), target::setType);
+        } else if (containsValue(schema31.getType(), "object")) {
+            setIfPresent(() -> toStringList(schema31.getType()), target::setType);
             setIfPresent(schema::getFormat, target::setFormat);
             // TODO: Consider representing object as map
             //if (schema.getAdditionalProperties() != null && schema.getAdditionalProperties().isSchema()) {
-            //    setSchemaProperties(target, (OpenApi31Schema) schema.getAdditionalProperties().asSchema());
+            //    setSchemaProperties(target, (OpenApi3xSchema) schema.getAdditionalProperties().asSchema());
             //}
             //
             //setIfPresent(schema::isNullable, target::setNullable);
             //setIfPresent(schema::getMaxProperties, value -> target.setMaxProperties(value.longValue()));
             //setIfPresent(schema::getMinProperties, value -> target.setMinProperties(value.longValue()));
             //target.setCollection("map");
-        } else if (containsValue(schema.getType(), "string")) {
-            setIfPresent(() -> toStringList(schema.getType()), target::setType);
+        } else if (containsValue(schema31.getType(), "string")) {
+            setIfPresent(() -> toStringList(schema31.getType()), target::setType);
             setIfPresent(schema::getFormat, target::setFormat);
             setIfPresent(schema::getMaxLength, value -> target.setMaxLength(value.longValue()));
             setIfPresent(schema::getMinLength, value -> target.setMinLength(value.longValue()));
             setIfPresent(schema::getPattern, target::setPattern);
-        } else if (containsValue(schema.getType(), "integer", "number")) {
-            setIfPresent(() -> toStringList(schema.getType()), target::setType);
+        } else if (containsValue(schema31.getType(), "integer", "number")) {
+            setIfPresent(() -> toStringList(schema31.getType()), target::setType);
             setIfPresent(schema::getFormat, target::setFormat);
 
-            if (schema.getExclusiveMaximum() != null) {
-                target.setMaximum(schema.getExclusiveMaximum());
+            if (schema31.getExclusiveMaximum() != null) {
+                target.setMaximum(schema31.getExclusiveMaximum());
                 target.setExclusiveMaximum(true);
             } else {
                 target.setMaximum(schema.getMaximum());
                 target.setExclusiveMaximum(false);
             }
 
-            if (schema.getExclusiveMinimum() != null) {
-                target.setMinimum(schema.getExclusiveMinimum());
+            if (schema31.getExclusiveMinimum() != null) {
+                target.setMinimum(schema31.getExclusiveMinimum());
                 target.setExclusiveMinimum(true);
             } else {
                 target.setMinimum(schema.getMinimum());
                 target.setExclusiveMinimum(false);
             }
         } else {
-            setIfPresent(() -> toStringList(schema.getType()), target::setType);
+            setIfPresent(() -> toStringList(schema31.getType()), target::setType);
             setIfPresent(schema::getFormat, target::setFormat);
         }
 

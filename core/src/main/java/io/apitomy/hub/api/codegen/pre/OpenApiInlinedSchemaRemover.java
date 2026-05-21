@@ -18,15 +18,15 @@ package io.apitomy.hub.api.codegen.pre;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.apicurio.datamodels.Library;
-import io.apicurio.datamodels.TraverserDirection;
-import io.apicurio.datamodels.models.Components;
-import io.apicurio.datamodels.models.Extensible;
-import io.apicurio.datamodels.models.Schema;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Components;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Schema;
-import io.apicurio.datamodels.models.visitors.CombinedVisitorAdapter;
-import io.apicurio.datamodels.util.NodeUtil;
+import io.apitomy.datamodels.Library;
+import io.apitomy.datamodels.TraverserDirection;
+import io.apitomy.datamodels.models.Components;
+import io.apitomy.datamodels.models.Extensible;
+import io.apitomy.datamodels.models.Schema;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Components;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Schema;
+import io.apitomy.datamodels.models.visitors.CombinedVisitorAdapter;
+import io.apitomy.datamodels.util.NodeUtil;
 import io.apitomy.hub.api.codegen.CodegenExtensions;
 import io.apitomy.hub.api.codegen.jaxrs.TraversingOpenApi31VisitorAdapter;
 import io.apitomy.hub.api.codegen.util.CodegenUtil;

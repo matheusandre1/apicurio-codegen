@@ -17,11 +17,11 @@
 package io.apitomy.hub.api.codegen.pre;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.apicurio.datamodels.Library;
-import io.apicurio.datamodels.models.Node;
-import io.apicurio.datamodels.models.openapi.OpenApiRequestBody;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31RequestBody;
-import io.apicurio.datamodels.refs.LocalReferenceResolver;
+import io.apitomy.datamodels.Library;
+import io.apitomy.datamodels.models.Node;
+import io.apitomy.datamodels.models.openapi.OpenApiRequestBody;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31RequestBody;
+import io.apitomy.datamodels.refs.LocalReferenceResolver;
 import io.apitomy.hub.api.codegen.jaxrs.TraversingOpenApi31VisitorAdapter;
 
 /**

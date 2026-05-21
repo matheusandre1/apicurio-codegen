@@ -21,12 +21,12 @@ import static io.apitomy.hub.api.codegen.util.CodegenUtil.containsValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import io.apicurio.datamodels.Library;
-import io.apicurio.datamodels.models.Extensible;
-import io.apicurio.datamodels.models.Node;
-import io.apicurio.datamodels.models.Schema;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Schema;
-import io.apicurio.datamodels.refs.LocalReferenceResolver;
+import io.apitomy.datamodels.Library;
+import io.apitomy.datamodels.models.Extensible;
+import io.apitomy.datamodels.models.Node;
+import io.apitomy.datamodels.models.Schema;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Schema;
+import io.apitomy.datamodels.refs.LocalReferenceResolver;
 import io.apitomy.hub.api.codegen.CodegenExtensions;
 import io.apitomy.hub.api.codegen.jaxrs.TraversingOpenApi31VisitorAdapter;
 import io.apitomy.hub.api.codegen.util.CodegenUtil;

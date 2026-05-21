@@ -18,11 +18,11 @@
     </properties>
 
     <dependencies>
-        <!-- Apicurio Data Model -->
+        <!-- Apitomy Data Models -->
         <dependency>
-            <groupId>io.apicurio</groupId>
-            <artifactId>apicurio-data-models</artifactId>
-            <version>${version.apicurio-data-models}</version>
+            <groupId>io.apitomy</groupId>
+            <artifactId>apitomy-data-models</artifactId>
+            <version>${version.apitomy-data-models}</version>
         </dependency>
 
         <!-- Third Party Libraries -->

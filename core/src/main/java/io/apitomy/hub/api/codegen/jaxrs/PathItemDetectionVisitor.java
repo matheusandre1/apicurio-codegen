@@ -16,7 +16,7 @@
 
 package io.apitomy.hub.api.codegen.jaxrs;
 
-import io.apicurio.datamodels.models.openapi.OpenApiPathItem;
+import io.apitomy.datamodels.models.openapi.OpenApiPathItem;
 
 /**
  * @author eric.wittmann@gmail.com
@@ -26,7 +26,7 @@ public class PathItemDetectionVisitor extends TraversingOpenApi31VisitorAdapter 
     public boolean isPathItem = false;
 
     /**
-     * @see io.apicurio.datamodels.models.visitors.CombinedVisitorAdapter#visitPathItem(io.apicurio.datamodels.models.openapi.OpenApiPathItem)
+     * @see io.apitomy.datamodels.models.visitors.CombinedVisitorAdapter#visitPathItem(io.apitomy.datamodels.models.openapi.OpenApiPathItem)
      */
     @Override
     public void visitPathItem(OpenApiPathItem node) {

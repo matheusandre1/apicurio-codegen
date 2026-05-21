@@ -26,12 +26,12 @@ import org.apache.commons.lang.StringUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.apicurio.datamodels.models.Document;
-import io.apicurio.datamodels.models.Extensible;
-import io.apicurio.datamodels.models.openapi.OpenApiSchema;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Document;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Schema;
-import io.apicurio.datamodels.models.union.StringStringListUnion;
+import io.apitomy.datamodels.models.Document;
+import io.apitomy.datamodels.models.Extensible;
+import io.apitomy.datamodels.models.openapi.OpenApiSchema;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Document;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Schema;
+import io.apitomy.datamodels.models.union.StringStringListUnion;
 import io.apitomy.hub.api.codegen.CodegenExtensions;
 import io.apitomy.hub.api.codegen.JaxRsProjectSettings;
 

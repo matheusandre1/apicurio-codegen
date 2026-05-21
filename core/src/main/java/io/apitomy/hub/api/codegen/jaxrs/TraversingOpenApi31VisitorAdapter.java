@@ -2,13 +2,13 @@ package io.apitomy.hub.api.codegen.jaxrs;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
-import io.apicurio.datamodels.models.Node;
-import io.apicurio.datamodels.models.Operation;
-import io.apicurio.datamodels.models.openapi.OpenApiPathItem;
-import io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter;
-import io.apicurio.datamodels.models.visitors.TraversalContext;
-import io.apicurio.datamodels.models.visitors.TraversingVisitor;
-import io.apicurio.datamodels.util.NodeUtil;
+import io.apitomy.datamodels.models.Node;
+import io.apitomy.datamodels.models.Operation;
+import io.apitomy.datamodels.models.openapi.OpenApiPathItem;
+import io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter;
+import io.apitomy.datamodels.models.visitors.TraversalContext;
+import io.apitomy.datamodels.models.visitors.TraversingVisitor;
+import io.apitomy.datamodels.util.NodeUtil;
 
 public abstract class TraversingOpenApi31VisitorAdapter extends OpenApi31VisitorAdapter implements TraversingVisitor {
 
@@ -17,7 +17,7 @@ public abstract class TraversingOpenApi31VisitorAdapter extends OpenApi31Visitor
     protected TraversalContext traversalContext;
 
     /**
-     * @see io.apicurio.datamodels.models.visitors.TraversingVisitor#setTraversalContext(io.apicurio.datamodels.models.visitors.TraversalContext)
+     * @see io.apitomy.datamodels.models.visitors.TraversingVisitor#setTraversalContext(io.apitomy.datamodels.models.visitors.TraversalContext)
      */
     @Override
     public void setTraversalContext(TraversalContext context) {

@@ -16,10 +16,10 @@
 
 package io.apitomy.hub.api.codegen.pre;
 
-import io.apicurio.datamodels.Library;
-import io.apicurio.datamodels.TraverserDirection;
-import io.apicurio.datamodels.models.Document;
-import io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31Visitor;
+import io.apitomy.datamodels.Library;
+import io.apitomy.datamodels.TraverserDirection;
+import io.apitomy.datamodels.models.Document;
+import io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31Visitor;
 
 /**
  * Used to preprocess an OpenAPI document in a variety of ways with the intent of making the

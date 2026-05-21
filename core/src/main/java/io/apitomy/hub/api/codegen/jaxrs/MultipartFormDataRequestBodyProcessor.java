@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import io.apicurio.datamodels.models.Document;
-import io.apicurio.datamodels.models.Schema;
-import io.apicurio.datamodels.models.openapi.OpenApiMediaType;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Schema;
+import io.apitomy.datamodels.models.Document;
+import io.apitomy.datamodels.models.Schema;
+import io.apitomy.datamodels.models.openapi.OpenApiMediaType;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Schema;
 import io.apitomy.hub.api.codegen.JaxRsProjectSettings;
 import io.apitomy.hub.api.codegen.beans.CodegenJavaArgument;
 import io.apitomy.hub.api.codegen.beans.CodegenJavaMethod;

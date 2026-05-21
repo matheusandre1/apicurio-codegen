@@ -18,11 +18,11 @@ package io.apitomy.hub.api.codegen.pre;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import io.apicurio.datamodels.Library;
-import io.apicurio.datamodels.models.Node;
-import io.apicurio.datamodels.models.openapi.OpenApiResponse;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Response;
-import io.apicurio.datamodels.refs.LocalReferenceResolver;
+import io.apitomy.datamodels.Library;
+import io.apitomy.datamodels.models.Node;
+import io.apitomy.datamodels.models.openapi.OpenApiResponse;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Response;
+import io.apitomy.datamodels.refs.LocalReferenceResolver;
 import io.apitomy.hub.api.codegen.jaxrs.TraversingOpenApi31VisitorAdapter;
 
 /**
@@ -31,7 +31,7 @@ import io.apitomy.hub.api.codegen.jaxrs.TraversingOpenApi31VisitorAdapter;
 public class OpenApiResponseInliner extends TraversingOpenApi31VisitorAdapter {
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitResponse(io.apicurio.datamodels.models.openapi.OpenApiResponse)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitResponse(io.apitomy.datamodels.models.openapi.OpenApiResponse)
      */
     @Override
     public void visitResponse(OpenApiResponse node) {

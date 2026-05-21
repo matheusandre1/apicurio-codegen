@@ -16,9 +16,9 @@
 
 package io.apitomy.hub.api.codegen.pre;
 
-import io.apicurio.datamodels.models.Schema;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Schema;
-import io.apicurio.datamodels.models.union.BooleanUnionValueImpl;
+import io.apitomy.datamodels.models.Schema;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Schema;
+import io.apitomy.datamodels.models.union.BooleanUnionValueImpl;
 import io.apitomy.hub.api.codegen.jaxrs.TraversingOpenApi31VisitorAdapter;
 
 /**
@@ -27,7 +27,7 @@ import io.apitomy.hub.api.codegen.jaxrs.TraversingOpenApi31VisitorAdapter;
 public class OpenApiAdditionalPropertiesDataTypeProcessor extends TraversingOpenApi31VisitorAdapter {
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitSchema(io.apicurio.datamodels.models.Schema)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitSchema(io.apitomy.datamodels.models.Schema)
      */
     @Override
     public void visitSchema(Schema node) {

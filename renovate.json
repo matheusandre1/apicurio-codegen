@@ -95,12 +95,12 @@
       ]
     },
     {
-      "groupName": "Dependencies: Apicurio Data Models (external)",
+      "groupName": "Dependencies: Apitomy Data Models (external)",
       "matchFileNames": [
         "**/pom.xml"
       ],
       "matchPackageNames": [
-        "io.apicurio:*"
+        "io.apitomy:*"
       ]
     },
     {

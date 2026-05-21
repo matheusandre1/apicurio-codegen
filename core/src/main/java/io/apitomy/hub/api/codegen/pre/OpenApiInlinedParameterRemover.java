@@ -18,15 +18,15 @@ package io.apitomy.hub.api.codegen.pre;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.apicurio.datamodels.Library;
-import io.apicurio.datamodels.TraverserDirection;
-import io.apicurio.datamodels.models.Components;
-import io.apicurio.datamodels.models.Extensible;
-import io.apicurio.datamodels.models.Parameter;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Components;
-import io.apicurio.datamodels.models.openapi.v31.OpenApi31Parameter;
-import io.apicurio.datamodels.models.visitors.CombinedVisitorAdapter;
-import io.apicurio.datamodels.util.NodeUtil;
+import io.apitomy.datamodels.Library;
+import io.apitomy.datamodels.TraverserDirection;
+import io.apitomy.datamodels.models.Components;
+import io.apitomy.datamodels.models.Extensible;
+import io.apitomy.datamodels.models.Parameter;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Components;
+import io.apitomy.datamodels.models.openapi.v3x.v31.OpenApi31Parameter;
+import io.apitomy.datamodels.models.visitors.CombinedVisitorAdapter;
+import io.apitomy.datamodels.util.NodeUtil;
 import io.apitomy.hub.api.codegen.CodegenExtensions;
 import io.apitomy.hub.api.codegen.jaxrs.TraversingOpenApi31VisitorAdapter;
 import io.apitomy.hub.api.codegen.util.CodegenUtil;
@@ -37,7 +37,7 @@ import io.apitomy.hub.api.codegen.util.CodegenUtil;
 public class OpenApiInlinedParameterRemover extends TraversingOpenApi31VisitorAdapter {
 
     /**
-     * @see io.apicurio.datamodels.models.openapi.v31.visitors.OpenApi31VisitorAdapter#visitParameter(io.apicurio.datamodels.models.Parameter)
+     * @see io.apitomy.datamodels.models.openapi.v3x.v31.visitors.OpenApi31VisitorAdapter#visitParameter(io.apitomy.datamodels.models.Parameter)
      */
     @Override
     public void visitParameter(Parameter node) {
